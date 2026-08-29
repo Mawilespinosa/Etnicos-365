@@ -8,4 +8,50 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Paleta de marca: denim / azul índigo (fábrica de jeans) */
+    --color-brand-50: #eff6ff;
+    --color-brand-100: #dbeafe;
+    --color-brand-200: #bfdbfe;
+    --color-brand-300: #93c5fd;
+    --color-brand-400: #60a5fa;
+    --color-brand-500: #3b82f6;
+    --color-brand-600: #1d4ed8;
+    --color-brand-700: #1e40af;
+    --color-brand-800: #1e3a8a;
+    --color-brand-900: #172554;
+    --color-brand-950: #0f1b3d;
+}
+
+/* Foco visible accesible en toda la app */
+:focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+}
+
+/* Elementos ocultos hasta que Alpine los inicialice */
+[x-cloak] {
+    display: none !important;
+}
+
+/* Elementos ocultos hasta que Alpine los inicialice */
+[x-cloak] {
+    display: none !important;
+}
+
+/* Impresión: ocultar navegación y encabezados de la app */
+@media print {
+    .app-sidebar,
+    .app-header,
+    .no-print {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+    }
+
+    main {
+        padding: 0 !important;
+    }
 }
