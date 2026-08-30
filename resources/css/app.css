@@ -39,6 +39,15 @@
     display: none !important;
 }
 
+/* Sidebar: scrollbar oculta */
+.app-sidebar [scrollbar-width="none"],
+.app-sidebar [class*="[scrollbar-width:none]"] {
+    scrollbar-width: none;
+}
+.app-sidebar ::-webkit-scrollbar {
+    display: none;
+}
+
 /* Impresión: ocultar navegación y encabezados de la app */
 @media print {
     .app-sidebar,

@@ -73,8 +73,8 @@
              class="fixed inset-0 z-30 bg-gray-900/60 lg:hidden" aria-hidden="true"></div>
 
         <!-- Sidebar -->
-        <aside class="app-sidebar fixed inset-y-0 left-0 z-40 flex w-72 max-w-[85vw] flex-col bg-brand-900 text-white transition-transform duration-200 lg:static lg:z-auto lg:translate-x-0 lg:shrink-0"
-               :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+        <aside class="app-sidebar fixed inset-y-0 left-0 z-40 flex w-72 max-w-[85vw] flex-col bg-brand-900 text-white transition-transform duration-200 lg:translate-x-0"
+               :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
                aria-label="Menú principal">
             <div class="flex items-center gap-3 border-b border-brand-800 px-5 py-4">
                 <img src="{{ asset('img/logo.jpg') }}" alt="Logo Etnicos 365"
@@ -91,7 +91,7 @@
                 </button>
             </div>
 
-            <nav class="flex-1 overflow-y-auto px-3 py-4">
+            <nav class="flex-1 overflow-y-auto px-3 py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 @foreach ($navGroups as $group => $items)
                     @php
                         $visible = collect($items)->filter(fn ($item) => $user->hasPermission($item['permission']));
@@ -126,7 +126,7 @@
         </aside>
 
         <!-- Contenido principal -->
-        <div class="flex min-w-0 flex-1 flex-col">
+        <div class="flex min-w-0 flex-1 flex-col lg:ml-72">
             <header class="app-header sticky top-0 z-20 border-b border-gray-200 bg-white/95 backdrop-blur">
                 <div class="flex items-center justify-between gap-3 px-4 py-3 md:px-6">
                     <div class="flex items-center gap-3">
