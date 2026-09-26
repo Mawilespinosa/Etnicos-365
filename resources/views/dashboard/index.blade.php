@@ -3,9 +3,42 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
-        <p class="text-sm text-gray-600">Resumen general de la operación de la fábrica.</p>
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900">Dashboard</h1>
+            <p class="text-sm text-gray-600">Resumen general de la operación de la fábrica.</p>
+        </div>
+
+        <form method="GET" action="{{ route('dashboard') }}" class="flex flex-wrap items-end gap-3">
+            <div>
+                <label for="month" class="block text-xs font-medium text-gray-500 mb-1">Mes</label>
+                <select id="month" name="month"
+                        class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    @foreach ($months as $num => $name)
+                        <option value="{{ $num }}" @selected($filterMonth === $num)>{{ $name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label for="year" class="block text-xs font-medium text-gray-500 mb-1">Año</label>
+                <select id="year" name="year"
+                        class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                    @foreach ($years as $y)
+                        <option value="{{ $y }}" @selected($filterYear === $y)>{{ $y }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <button type="submit"
+                    class="rounded-lg bg-brand-700 px-4 py-2 text-sm font-medium text-white hover:bg-brand-800">
+                Filtrar
+            </button>
+            @if ($filterMonth !== (int) now()->month || $filterYear !== (int) now()->year)
+                <a href="{{ route('dashboard') }}"
+                   class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    Limpiar
+                </a>
+            @endif
+        </form>
     </div>
 
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -23,7 +56,7 @@
 
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
             <div class="flex items-center justify-between">
-                <p class="text-sm font-medium text-gray-500">Ventas del mes</p>
+                <p class="text-sm font-medium text-gray-500">Ventas de {{ $months[$filterMonth] }} {{ $filterYear }}</p>
                 <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50 text-brand-700">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
@@ -59,7 +92,7 @@
 
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
             <div class="flex items-center justify-between">
-                <p class="text-sm font-medium text-gray-500">Ingresos del mes</p>
+                <p class="text-sm font-medium text-gray-500">Ingresos de {{ $months[$filterMonth] }} {{ $filterYear }}</p>
                 <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-green-50 text-green-700">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
@@ -71,7 +104,7 @@
 
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
             <div class="flex items-center justify-between">
-                <p class="text-sm font-medium text-gray-500">Egresos del mes</p>
+                <p class="text-sm font-medium text-gray-500">Egresos de {{ $months[$filterMonth] }} {{ $filterYear }}</p>
                 <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-50 text-red-700">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" />
@@ -83,7 +116,7 @@
 
         <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:col-span-2 xl:col-span-3">
             <div class="flex items-center justify-between">
-                <p class="text-sm font-medium text-gray-500">Utilidad del mes</p>
+                <p class="text-sm font-medium text-gray-500">Utilidad de {{ $months[$filterMonth] }} {{ $filterYear }}</p>
                 <span class="flex h-10 w-10 items-center justify-center rounded-lg {{ $monthProfit >= 0 ? 'bg-brand-50 text-brand-700' : 'bg-red-50 text-red-700' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
@@ -95,4 +128,148 @@
             </p>
         </div>
     </div>
+
+    {{-- Gráficos interactivos --}}
+    <div class="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-2">
+
+        {{-- Ventas mensuales --}}
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <h3 class="mb-4 text-base font-semibold text-gray-900">Ventas mensuales — {{ $filterYear }}</h3>
+            <div class="relative" style="height: 280px;">
+                <canvas id="chartSales"></canvas>
+            </div>
+        </div>
+
+        {{-- Ingresos vs Egresos --}}
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+            <h3 class="mb-4 text-base font-semibold text-gray-900">Ingresos vs Egresos — {{ $filterYear }}</h3>
+            <div class="relative" style="height: 280px;">
+                <canvas id="chartIncomeExpense"></canvas>
+            </div>
+        </div>
+
+        {{-- Utilidad mensual --}}
+        <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm xl:col-span-2">
+            <h3 class="mb-4 text-base font-semibold text-gray-900">Utilidad mensual — {{ $filterYear }}</h3>
+            <div class="relative" style="height: 300px;">
+                <canvas id="chartProfit"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chartData = @json($chartData);
+
+        const COLORS = {
+            blue: 'rgba(30, 64, 175, 0.8)',
+            blueLight: 'rgba(30, 64, 175, 0.1)',
+            green: 'rgba(22, 163, 74, 0.8)',
+            greenLight: 'rgba(22, 163, 74, 0.1)',
+            red: 'rgba(220, 38, 38, 0.8)',
+            redLight: 'rgba(220, 38, 38, 0.1)',
+            brand: 'rgba(37, 99, 235, 0.8)',
+            brandLight: 'rgba(37, 99, 235, 0.1)',
+        };
+
+        const tooltipStyle = {
+            backgroundColor: 'rgba(15, 27, 61, 0.95)',
+            titleColor: '#fff',
+            bodyColor: '#fff',
+            padding: 12,
+            cornerRadius: 8,
+            displayColors: true,
+            callbacks: {
+                label: function(ctx) {
+                    return ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString('es-CO');
+                }
+            }
+        };
+
+        const defaultScales = {
+            x: { grid: { display: false } },
+            y: {
+                beginAtZero: true,
+                grid: { color: 'rgba(0,0,0,0.05)' },
+                ticks: {
+                    callback: function(v) { return '$' + v.toLocaleString('es-CO'); }
+                }
+            }
+        };
+
+        // 1. Ventas mensuales
+        new Chart(document.getElementById('chartSales'), {
+            type: 'bar',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'Ventas',
+                    data: chartData.sales,
+                    backgroundColor: COLORS.blue,
+                    borderRadius: 6,
+                    maxBarThickness: 40,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { tooltip: tooltipStyle, legend: { display: false } },
+                scales: defaultScales,
+            }
+        });
+
+        // 2. Ingresos vs Egresos
+        new Chart(document.getElementById('chartIncomeExpense'), {
+            type: 'bar',
+            data: {
+                labels: chartData.labels,
+                datasets: [
+                    {
+                        label: 'Ingresos',
+                        data: chartData.incomes,
+                        backgroundColor: COLORS.green,
+                        borderRadius: 6,
+                        maxBarThickness: 30,
+                    },
+                    {
+                        label: 'Egresos',
+                        data: chartData.expenses,
+                        backgroundColor: COLORS.red,
+                        borderRadius: 6,
+                        maxBarThickness: 30,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { tooltip: tooltipStyle, legend: { position: 'top' } },
+                scales: defaultScales,
+            }
+        });
+
+        // 3. Utilidad mensual
+        new Chart(document.getElementById('chartProfit'), {
+            type: 'line',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'Utilidad',
+                    data: chartData.profits,
+                    borderColor: COLORS.brand,
+                    backgroundColor: COLORS.brandLight,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: COLORS.brand,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { tooltip: tooltipStyle, legend: { display: false } },
+                scales: defaultScales,
+            }
+        });
+    </script>
 @endsection
