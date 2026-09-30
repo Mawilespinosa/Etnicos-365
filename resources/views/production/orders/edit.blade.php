@@ -10,16 +10,8 @@
         @method('PUT')
 
         <div class="mb-4">
-            <label for="product_id" class="block text-sm font-medium mb-1">Producto</label>
-            <select id="product_id" name="product_id" required
-                    class="w-full rounded border border-gray-300 px-3 py-2">
-                <option value="">— Seleccionar producto —</option>
-                @foreach ($products as $product)
-                    <option value="{{ $product->id }}" @selected(old('product_id', $order->product_id) == $product->id)>
-                        {{ $product->code }} — {{ $product->name }}
-                    </option>
-                @endforeach
-            </select>
+            <label class="block text-sm font-medium mb-1">Producto</label>
+            <x-product-picker name="product_id" :products="$products" :value="old('product_id', $order->product_id)" required placeholder="Seleccionar producto" />
             @error('product_id')
                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
             @enderror

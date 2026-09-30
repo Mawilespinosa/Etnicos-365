@@ -17,16 +17,8 @@
                   class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 @csrf
                 <div>
-                    <label for="product_id" class="block text-sm font-medium mb-1">Producto</label>
-                    <select id="product_id" name="product_id" required
-                            class="w-full rounded border border-gray-300 px-3 py-2">
-                        <option value="">— Seleccionar —</option>
-                        @foreach ($products as $product)
-                            <option value="{{ $product->id }}" @selected(old('product_id') == $product->id)>
-                                {{ $product->code }} — {{ $product->name }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <label class="block text-sm font-medium mb-1">Producto</label>
+                    <x-product-picker name="product_id" :products="$products" :value="old('product_id')" required placeholder="Seleccionar producto" />
                     @error('product_id')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -71,14 +63,9 @@
     @endif
 
     <form method="GET" action="{{ route('inventory.movements') }}" class="mb-4 flex flex-wrap gap-2">
-        <select name="product_id" aria-label="Filtrar por producto" class="rounded border border-gray-300 px-3 py-2">
-            <option value="">Todos los productos</option>
-            @foreach ($products as $product)
-                <option value="{{ $product->id }}" @selected(request('product_id') == $product->id)>
-                    {{ $product->code }} — {{ $product->name }}
-                </option>
-            @endforeach
-        </select>
+        <div class="w-64">
+            <x-product-picker name="product_id" :products="$products" :value="request('product_id')" allow-clear placeholder="Todos los productos" />
+        </div>
         <select name="type" aria-label="Filtrar por tipo" class="rounded border border-gray-300 px-3 py-2">
             <option value="">Todos los tipos</option>
             <option value="in" @selected(request('type') === 'in')>Entrada</option>
