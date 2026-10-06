@@ -18,10 +18,10 @@
             </span>
 
             <h1 class="mt-5 text-4xl font-extrabold leading-tight tracking-tight md:text-5xl">
-                Jeans con alma colombiana
+                Jeans Etnicos 365
             </h1>
             <p class="mt-4 max-w-xl text-lg leading-relaxed text-brand-100">
-                Descubre prendas fabricadas con materiales de primera, diseñadas para durar y hacerte sentir único. Calidad y estilo en cada costura.
+                Te viste todos los días del año.
             </p>
 
             <div class="mt-8 flex flex-wrap items-center gap-3">
@@ -32,15 +32,11 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                     </svg>
                 </a>
-                <a href="#catalog"
-                   class="inline-flex items-center gap-2 rounded-xl border border-white/30 bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur transition hover:bg-white/20">
-                    Explorar
-                </a>
             </div>
         </div>
 
         {{-- Indicadores de confianza --}}
-        <div class="relative mt-12 grid grid-cols-1 gap-4 border-t border-white/15 pt-8 sm:grid-cols-3">
+        <div class="relative mt-12 grid grid-cols-1 gap-4 border-t border-white/15 pt-8 sm:grid-cols-2">
             <div class="flex items-center gap-3">
                 <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10 ring-1 ring-white/20">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-brand-100" aria-hidden="true">
@@ -61,17 +57,6 @@
                 <div>
                     <p class="text-sm font-semibold">Calidad garantizada</p>
                     <p class="text-xs text-brand-200">Materiales premium</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/10 ring-1 ring-white/20">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5 text-brand-100" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
-                    </svg>
-                </span>
-                <div>
-                    <p class="text-sm font-semibold">Pago seguro</p>
-                    <p class="text-xs text-brand-200">PSE y más</p>
                 </div>
             </div>
         </div>
@@ -152,7 +137,7 @@
             @endif
 
             <article class="group flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-                <a href="{{ route('store.show', $product) }}" class="relative block aspect-[3/4] overflow-hidden bg-gray-100">
+                <a href="{{ route('store.show', $product) }}" class="relative block aspect-square overflow-hidden bg-gray-100">
                     @if ($product->image)
                         <img src="{{ asset('storage/' . $product->image) }}"
                              alt="{{ $product->name }}"

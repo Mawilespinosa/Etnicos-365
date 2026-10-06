@@ -106,30 +106,33 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-gray-200 bg-white mt-12">
-        <div class="max-w-7xl mx-auto px-4 py-8 md:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer class="mt-12 bg-brand-950 text-brand-200">
+        <div class="mx-auto max-w-7xl px-4 py-12 md:px-6 lg:px-8">
+            <div class="grid grid-cols-1 gap-10 md:grid-cols-3">
                 <div>
-                    <h3 class="text-lg font-bold text-brand-900 mb-3">Etnicos 365</h3>
-                    <p class="text-gray-600 text-sm">Fábrica de jeans colombiana. Calidad, estilo y tradición en cada prenda.</p>
+                    <div class="flex items-center gap-2 mb-4">
+                        <img src="{{ asset('img/logo.jpg') }}" alt="Logo Etnicos 365" class="h-10 w-10 rounded-full object-cover ring-2 ring-brand-800">
+                        <h3 class="text-lg font-bold text-white">Etnicos 365</h3>
+                    </div>
+                    <p class="text-sm leading-relaxed text-brand-300">Fábrica de jeans colombiana. Calidad, estilo y tradición en cada prenda.</p>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-brand-900 mb-3">Contacto</h3>
-                    <address class="not-italic text-gray-600 text-sm space-y-1">
+                    <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-white">Contacto</h3>
+                    <address class="not-italic space-y-2 text-sm text-brand-300">
                         <p>Bogotá, Colombia</p>
-                        <p>Email: ventas@etnicos365.com</p>
+                        <p>Email: <a href="mailto:ventas@etnicos365.com" class="hover:text-white">ventas@etnicos365.com</a></p>
                         <p>Tel: +57 1 234 5678</p>
                     </address>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-brand-900 mb-3">Enlaces</h3>
-                    <nav class="space-y-1">
-                        <a href="{{ route('store.index') }}" class="text-gray-600 text-sm hover:text-brand-700">Catálogo</a>
-                        <a href="{{ route('login') }}" class="text-gray-600 text-sm hover:text-brand-700 block">Área privada</a>
+                    <h3 class="mb-4 text-sm font-semibold uppercase tracking-wider text-white">Enlaces</h3>
+                    <nav class="space-y-2 text-sm">
+                        <a href="{{ route('store.index') }}" class="block text-brand-300 hover:text-white">Catálogo</a>
+                        <a href="{{ route('login') }}" class="block text-brand-300 hover:text-white">Área privada</a>
                     </nav>
                 </div>
             </div>
-            <div class="mt-8 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+            <div class="mt-10 border-t border-brand-800 pt-6 text-center text-sm text-brand-400">
                 <p>&copy; {{ date('Y') }} Etnicos 365. Todos los derechos reservados.</p>
             </div>
         </div>
