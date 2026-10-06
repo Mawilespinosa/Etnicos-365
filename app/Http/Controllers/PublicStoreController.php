@@ -26,10 +26,11 @@ class PublicStoreController extends Controller
      */
     public function index(Request $request): View
     {
-        $products = Product::query()
+        $query = Product::query()
             ->where('is_active', true)
             ->where('stock_qty', '>', 0)
-            ->when($request->search, function ($query, string $search): void {
+            ->when($request->filled('search'), function ($query) use ($request): void {
+                $search = $request->input('search');
                 $query->where(function ($q) use ($search): void {
                     $q->where('name', 'like', "%{$search}%")
                         ->orWhere('code', 'like', "%{$search}%")
@@ -37,11 +38,28 @@ class PublicStoreController extends Controller
                         ->orWhere('category', 'like', "%{$search}%");
                 });
             })
-            ->orderBy('name')
-            ->paginate(12)
-            ->withQueryString();
+            ->when($request->filled('category'), function ($query) use ($request): void {
+                $query->where('category', $request->input('category'));
+            });
 
-        return view('store.index', compact('products'));
+        $query = match ($request->input('sort')) {
+            'price_asc' => $query->orderBy('price'),
+            'price_desc' => $query->orderByDesc('price'),
+            'newest' => $query->orderByDesc('id'),
+            default => $query->orderBy('name'),
+        };
+
+        $products = $query->paginate(12)->withQueryString();
+
+        $categories = Product::query()
+            ->where('is_active', true)
+            ->where('stock_qty', '>', 0)
+            ->distinct()
+            ->pluck('category')
+            ->filter()
+            ->values();
+
+        return view('store.index', compact('products', 'categories'));
     }
 
     /**
