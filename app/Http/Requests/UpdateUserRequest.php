@@ -24,6 +24,7 @@ class UpdateUserRequest extends FormRequest
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($userId)],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'is_active' => ['nullable', 'boolean'],
+            'production_stage' => ['nullable', 'integer', 'between:1,8'],
             'roles' => ['nullable', 'array'],
             'roles.*' => ['exists:roles,id'],
         ];

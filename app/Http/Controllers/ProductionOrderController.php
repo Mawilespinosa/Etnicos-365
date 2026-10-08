@@ -131,6 +131,10 @@ class ProductionOrderController extends Controller
             return back()->with('error', 'No se puede avanzar una orden de producción cancelada.');
         }
 
+        if (! auth()->user()->canAdvanceStage($order->current_stage)) {
+            return back()->with('error', 'No puedes avanzar esta etapa: no corresponde a tu área asignada.');
+        }
+
         $currentStage = $order->stages()->where('stage_number', $order->current_stage)->first();
 
         if (! $currentStage) {

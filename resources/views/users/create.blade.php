@@ -49,6 +49,23 @@
             </label>
         </div>
 
+        <div class="mb-4">
+            <label for="production_stage" class="block text-sm font-medium mb-1">Etapa de producción</label>
+            <select id="production_stage" name="production_stage"
+                    class="w-full rounded border border-gray-300 px-3 py-2">
+                <option value="">— Sin etapa —</option>
+                @foreach (config('production.stages') as $stage)
+                    <option value="{{ $stage['order'] }}" @selected((int) old('production_stage') === $stage['order'])>
+                        {{ $stage['order'] }}. {{ $stage['label'] }}
+                    </option>
+                @endforeach
+            </select>
+            <p class="text-xs text-gray-500 mt-1">Si se asigna una etapa, el usuario solo podrá avanzar esa etapa en las órdenes de producción.</p>
+            @error('production_stage')
+                <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
         <div class="mb-6">
             <span class="block text-sm font-medium mb-2">Roles</span>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">

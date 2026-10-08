@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Product;
 use App\Models\ProductionOrder;
+use App\Models\Role;
 use App\Models\User;
 use Database\Seeders\AdminUserSeeder;
 use Database\Seeders\PermissionSeeder;
@@ -158,6 +159,43 @@ class ProductionOrderTest extends TestCase
         $this->assertDatabaseHas('production_orders', [
             'id' => $order->id,
             'current_stage' => 1,
+        ]);
+    }
+
+    public function test_production_user_can_only_advance_their_stage(): void
+    {
+        $order = $this->createOrder();
+
+        $sewer = User::factory()->create(['production_stage' => 3]);
+        $sewer->roles()->attach(Role::where('name', 'production')->first());
+
+        // Stage 1 (compra de tela) no es su área -> bloqueado.
+        $this->actingAs($sewer)
+            ->post("/production/orders/{$order->id}/advance")
+            ->assertSessionHas('error');
+
+        $this->assertDatabaseHas('production_orders', [
+            'id' => $order->id,
+            'current_stage' => 1,
+        ]);
+
+        // El admin avanza hasta la etapa 3 (confección).
+        $this->actingAs($this->admin)->post("/production/orders/{$order->id}/advance");
+        $this->actingAs($this->admin)->post("/production/orders/{$order->id}/advance");
+
+        // Ahora la etapa 3 es la actual -> el usuario de confección sí puede avanzar (3 -> 4).
+        $this->actingAs($sewer)
+            ->post("/production/orders/{$order->id}/advance")
+            ->assertSessionHas('success');
+
+        $this->assertDatabaseHas('production_orders', [
+            'id' => $order->id,
+            'current_stage' => 4,
+        ]);
+        $this->assertDatabaseHas('production_order_stages', [
+            'production_order_id' => $order->id,
+            'stage_number' => 3,
+            'status' => 'completed',
         ]);
     }
 

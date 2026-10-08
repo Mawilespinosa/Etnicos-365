@@ -136,7 +136,18 @@
             @endforeach
         </ol>
 
-        @if (auth()->user()->hasPermission('production.advance') && ! in_array($order->status, ['completed', 'cancelled']))
+        @php
+            $user = auth()->user();
+            $notFinished = ! in_array($order->status, ['completed', 'cancelled']);
+            $canAdvance = $user->hasPermission('production.advance')
+                && $notFinished
+                && $user->canAdvanceStage($order->current_stage);
+            $userStageLabel = $user->production_stage
+                ? (collect(config('production.stages'))->firstWhere('order', $user->production_stage)['label'] ?? null)
+                : null;
+        @endphp
+
+        @if ($canAdvance)
             <form method="POST" action="{{ route('production.orders.advance', $order) }}" class="mt-6"
                   onsubmit="return confirm('¿Completar la etapa actual y avanzar?')">
                 @csrf
@@ -144,6 +155,13 @@
                     Avanzar etapa
                 </button>
             </form>
+        @elseif ($user->hasPermission('production.advance') && $notFinished)
+            <p class="mt-6 rounded bg-gray-50 px-4 py-3 text-sm text-gray-500">
+                La etapa actual corresponde a otra área, por lo que no puedes avanzarla.
+                @if ($userStageLabel)
+                    Tu área asignada es: <strong>{{ $userStageLabel }}</strong>.
+                @endif
+            </p>
         @endif
     </div>
 @endsection

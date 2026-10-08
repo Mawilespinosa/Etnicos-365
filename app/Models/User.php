@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'is_active'])]
+#[Fillable(['name', 'email', 'password', 'is_active', 'production_stage'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -30,6 +30,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_active' => 'boolean',
+            'production_stage' => 'integer',
         ];
     }
 
@@ -48,5 +49,14 @@ class User extends Authenticatable
         return $this->roles()->whereHas('permissions', function (Builder $query) use ($permission): void {
             $query->where('name', $permission);
         })->exists();
+    }
+
+    public function canAdvanceStage(int $stage): bool
+    {
+        if ($this->hasRole('admin')) {
+            return true;
+        }
+
+        return $this->production_stage !== null && $this->production_stage === $stage;
     }
 }

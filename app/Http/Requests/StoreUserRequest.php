@@ -21,6 +21,7 @@ class StoreUserRequest extends FormRequest
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'is_active' => ['nullable', 'boolean'],
+            'production_stage' => ['nullable', 'integer', 'between:1,8'],
             'roles' => ['nullable', 'array'],
             'roles.*' => ['exists:roles,id'],
         ];
